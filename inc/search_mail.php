@@ -22,16 +22,26 @@ $threads = [];
 
 
 $search_box = ['INBOX', '[Gmail]/Sent Mail'];
+//$search_box = ['[Gmail]/Sent Mail'];
+//$search_box = ['INBOX'];
 
 foreach ($search_box as $value) {
     $mailbox = $connection->getMailbox($value);
     $search = new SearchExpression();
-//$search->addCondition(new To('email.to@address.com'));
+
     $search->addCondition(new Subject($subject));
-    // $search->addCondition(new From('ankit.kumar@asentech.com'));
-    $arrayOrCondition = array();
-    //$arrayOrCondition = new From('nevakar.asentech@gmail.com');
-    //$search->addCondition(new OrConditions($arrayOrCondition));
+
+    if ($value == 'INBOX') {
+        $search->addCondition(new From('ankit.kumar@asentech.com'));
+        $search->addCondition(new To('nevakar.asentech@gmail.com'));
+       
+    }
+    if ($value == '[Gmail]/Sent Mail') {
+        $search->addCondition(new To('ankit.kumar@asentech.com'));
+        $search->addCondition(new From('nevakar.asentech@gmail.com'));
+    }
+
+ //$search->addCondition(new OrConditions($arrayOrCondition));
 //$search->addCondition(new Subject('Request: Disease Query'));
 //$search->addCondition(new Unseen());
 //$search->addCondition(new Deleted());
@@ -53,6 +63,7 @@ foreach ($search_box as $value) {
         $message_body = $message->getBodyText();
         $threads[$message_timestamp_gmt] = [
             'message_id' => $message_id,
+            'message_type' => $value,
             'to_name' => $to_name,
             'to_email' => $to_email,
             'from_name' => $from_name,
@@ -72,10 +83,11 @@ $message_cnt = count($threads);
 echo '<div class="row">';
 if ($message_cnt) {
     ksort($threads);
-   
+
     foreach ($threads as $value) {
         $k = 0;
         $message_id = $value['message_id'];
+        $message_type = $value['message_type'];
         $to_name = $value['to_name'];
         $to_email = $value['to_email'];
         $from_name = $value['from_name'];
@@ -92,7 +104,7 @@ if ($message_cnt) {
 
 
         echo '<div class="panel panel-default">';
-        echo '<div class="panel-heading" style="height:40px"><div class="col-sm-6 panel-title">' . $message_subject . '</div><div class="col-sm-6" style="text-align:right"><b>Message Number:</b>' . $message_number . ' | <b>Message Id: </b>' . $message_id . '</div></div>';
+        echo '<div class="panel-heading" style="height:40px"><div class="col-sm-6 panel-title">' . $message_subject . '('.$message_type.')</div><div class="col-sm-6" style="text-align:right"><b>Message Number:</b>' . $message_number . ' | <b>Message Id: </b>' . $message_id . '</div></div>';
         echo '<div class="panel-body">';
         echo '<div class="row">';
         echo '<div class="col-sm-6 p-3 mb-2 bg-primary text-warning"><b>Sender Name:</b> ' . $from_name . ' </div>';
