@@ -41,9 +41,7 @@ foreach ($search_box as $value) {
         $search->addCondition(new From('nevakar.asentech@gmail.com'));
     }
 
- //$search->addCondition(new OrConditions($arrayOrCondition));
-//$search->addCondition(new Subject('Request: Disease Query'));
-//$search->addCondition(new Unseen());
+ //$search->addCondition(new Unseen());
 //$search->addCondition(new Deleted());
 //$search->addCondition(new From('appleid@id.apple.com'));
 //$arrayOrCondition = array();
@@ -78,16 +76,18 @@ foreach ($search_box as $value) {
 }
 $message_cnt = count($threads);
 ?>
-<h3>Search Message(Message count:<?php echo $message_cnt ?>)</h3>
+<h3>Search Message(Count:<?php echo $message_cnt ?>)</h3>
 <?php
 echo '<div class="row">';
 if ($message_cnt) {
     ksort($threads);
+    //print_r($threads); die();
 
     foreach ($threads as $value) {
         $k = 0;
         $message_id = $value['message_id'];
-        $message_type = $value['message_type'];
+        $message_type = '('.$value['message_type'].')';
+        $message_type = '';
         $to_name = $value['to_name'];
         $to_email = $value['to_email'];
         $from_name = $value['from_name'];
@@ -104,7 +104,7 @@ if ($message_cnt) {
 
 
         echo '<div class="panel panel-default">';
-        echo '<div class="panel-heading" style="height:40px"><div class="col-sm-6 panel-title">' . $message_subject . '('.$message_type.')</div><div class="col-sm-6" style="text-align:right"><b>Message Number:</b>' . $message_number . ' | <b>Message Id: </b>' . $message_id . '</div></div>';
+        echo '<div class="panel-heading" style="height:40px"><div class="col-sm-6 panel-title">' . $message_subject .$message_type.'</div><div class="col-sm-6" style="text-align:right"><b>Message Number:</b>' . $message_number . ' | <b>Message Id: </b>' . $message_id . '</div></div>';
         echo '<div class="panel-body">';
         echo '<div class="row">';
         echo '<div class="col-sm-6 p-3 mb-2 bg-primary text-warning"><b>Sender Name:</b> ' . $from_name . ' </div>';
