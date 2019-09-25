@@ -13,7 +13,7 @@ if (isset($_GET['q'])) {
     <a href="/?q=get_inbox_mail_list">Get Mail From Inbox</a>
     <a href="/?q=search_mail">Search Mail</a>
     <a href="/?q=get_unseen_mail">Unseen Mail</a>
-    <a href="/?q=get_mail_by_mailbox">Get Mail by Mail Box</a>
+    <!--a href="/?q=get_mail_by_mailbox">Get Mail by Mail Box</a>-->
 
 </div>
 
